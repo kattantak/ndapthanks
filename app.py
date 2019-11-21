@@ -1,29 +1,3 @@
-import os
-
-"""from flask import abort, Flask, jsonify, request
-
-
-app = Flask(__name__)
-
-
-def is_request_valid(request):
-    is_token_valid = request.form['token'] == os.environ['6mPhVZmqSZ57QFfMioqhl1Ra']
-    #is_team_id_valid = request.form['team_id'] == os.environ['SLACK_TEAM_ID']
-
-    return is_token_valid and is_team_id_valid
-
-
-@app.route('/', methods=['POST'])
-def hello_there():
-    if not is_request_valid(request):
-        abort(400)
-
-    return jsonify(
-        response_type='in_channel',
-        text='<https://youtu.be/frszEJb0aOo|General Kenobi!>',
-    )
-"""
-
 # app.py
 from flask import Flask, request, jsonify
 app = Flask(__name__)
@@ -74,6 +48,4 @@ def index():
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
-    port_config = int(os.environ.get('PORT', 33507))
-    #app.run(threaded=True, port=port_config)
-    app.run()
+    app.run(threaded=True, port=5000)
