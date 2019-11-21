@@ -12,9 +12,9 @@ def is_request_valid(request):
 
 
 @app.route('/', methods=['POST'])
-def hello_there():
-    if not is_request_valid(request):
-        abort(400)
+def ndap_thanks():
+    #if not is_request_valid(request):
+    #    abort(400)
 
     return jsonify(
         response_type='in_channel',
