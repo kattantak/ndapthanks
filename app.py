@@ -1,17 +1,24 @@
-from bottle import run,post,request,response,route
 import os
-import urllib
+
+from flask import abort, Flask, jsonify, request
 
 
-@route('/',method="post")
-def gen_path_3():
-    postdata = request.forms.get("text")
-    output_path = str("sndwserv:/" + urllib.quote(postdata))
-    package = {"response_type": "in_channel", "text": "{}".format(output_path)}
-    response.content_type = 'application/json'
-    return package
+app = Flask(__name__)
 
 
-if __name__ == '__main__':
-    port_config = int(os.getenv('PORT', 5000))
-    run(host='0.0.0.0', port=port_config)
+def is_request_valid(request):
+    is_token_valid = request.form['token'] == os.environ['6mPhVZmqSZ57QFfMioqhl1Ra']
+    #is_team_id_valid = request.form['team_id'] == os.environ['SLACK_TEAM_ID']
+
+    return is_token_valid and is_team_id_valid
+
+
+@app.route('/', methods=['POST'])
+def hello_there():
+    if not is_request_valid(request):
+        abort(400)
+
+    return jsonify(
+        response_type='in_channel',
+        text='<https://youtu.be/frszEJb0aOo|General Kenobi!>',
+    )
