@@ -3,7 +3,7 @@ import os
 import urllib
 
 
-@route('/path',method="post")
+@route('/thx',method="post")
 def gen_path_3():
     postdata = request.forms.get("text")
     output_path = str("sndwserv:/" + urllib.quote(postdata))
@@ -12,6 +12,7 @@ def gen_path_3():
     return package
 
 
-if __name__ == '__main__':
-    port_config = int(os.getenv('PORT', 5000))
-    run(host='0.0.0.0', port=port_config)
+if os.environ.get('APP_LOCATION') == 'heroku':
+    run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+else:
+    run(host='localhost', port=8080, debug=True)
