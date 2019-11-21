@@ -1,7 +1,7 @@
 {
-  "name": "Name your app",
-  "description": "Describe your project",
-  "repository": "https://github.com/your-repo-address",
-  "logo": "Pick a logo",
+  "name": "NDAP Thanks",
+  "description": "Send Thanks to the team",
+  "repository": "https://github.com/kattantak/ndapthanks",
+  "logo": "NDAP",
   "keywords": ["Slack", "Paths", "Slash commands"]
 }
