@@ -6,20 +6,23 @@ app = Flask(__name__)
 
 def is_request_valid(request):
     is_token_valid = request.form['token'] == os.environ['6mPhVZmqSZ57QFfMioqhl1Ra']
-    #is_team_id_valid = request.form['team_id'] == os.environ['SLACK_TEAM_ID']
+    is_team_id_valid = request.form['team_id'] == os.environ['T70DXRVH6']
 
     return is_token_valid and is_team_id_valid
 
 
 @app.route('/', methods=['POST'])
 def ndap_thanks():
-    #if not is_request_valid(request):
-    #    abort(400)
-
-    return jsonify(
-        response_type='in_channel',
-        text='<https://youtu.be/frszEJb0aOo|General Kenobi!>',
-    )
+    if not is_request_valid(request):
+        return jsonify(
+            response_type='in_channel',
+            text='Not a valid team!',
+            )
+    else:
+        return jsonify(
+            response_type='in_channel',
+            text='<https://youtu.be/frszEJb0aOo|General Kenobi!>',
+            )
 
 
 # A welcome message to test our server
