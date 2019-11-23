@@ -25,8 +25,8 @@ def ndap_thanks():
         thx_who = request.form.get('user_name', None)
         req_text = request.form.get('text', None)
         logging.info(thx_who)
+        logging.info(thx_user_id)
         logging.info(req_text)
-        print(thx_user_id)
 
         #Split and convert to get the needed data
         data = req_text.split(" ",2)
@@ -59,16 +59,20 @@ def ndap_thanks():
                     conn.commit()
                     # close the communication with the PostgreSQL
                     cur.close()
+                    response_text_to_slack = 'Thank you for your kindness!'
                 except (Exception, psycopg2.DatabaseError) as error:
+                    response_text_to_slack = 'Database Error :( warning <@UCGPL6H0E>'
                     logging.error(error)
                 finally:
                     if conn is not None:
                         conn.close()
                         logging.info('Database connection closed.')
             else:
-                logging.error(data[1] + " is not a valid '@mention' !")
+                response_text_to_slack = data[1] + " is not a valid '@mention' !"
+                logging.error(response_text_to_slack)
         except ValueError:
-            logging.error(data[0] + " is not an int!")
+            response_text_to_slack = data[0] + " is not an int!"
+            logging.error(response_text_to_slack)
 
         if response_text_to_slack is not None:
             return jsonify(
