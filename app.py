@@ -78,7 +78,7 @@ def ndap_thanks():
         else:
             return jsonify(
                 response_type='in_channel',
-                text='Something went terrible wrong :( warning @Mike',
+                text='Something went terrible wrong :( warning <@UCGPL6H0E>',
                 )
 
 # A welcome message to our server
