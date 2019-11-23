@@ -1,18 +1,26 @@
 # app.py
-import os
+# import os
+import logging
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 
+#logging.basicConfig(filename='example.log')
+logging.basicConfig(level=logging.INFO)
 
 def is_request_valid(request):
-    is_token_valid = request.form['token'] == os.environ['6mPhVZmqSZ57QFfMioqhl1Ra']
-    is_team_id_valid = request.form['team_id'] == os.environ['T70DXRVH6']
-
-    return is_token_valid and is_team_id_valid
-
+    is_token_valid = request.form.get('token', None) == '6mPhVZmqSZ57QFfMioqhl1Ra'
+    is_team_valid = request.form.get('team_id', None) == 'T70DXRVH6'
+    return is_token_valid and is_team_valid
 
 @app.route('/', methods=['POST'])
 def ndap_thanks():
+    # Parse the parameters you need
+    command = request.form.get('command', None)
+    user_name = request.form.get('user_name', None)
+    text = request.form.get('text', None)
+    logging.info(user_name)
+    logging.info(text)
+
     if not is_request_valid(request):
         return jsonify(
             response_type='in_channel',
