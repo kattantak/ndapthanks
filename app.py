@@ -18,6 +18,7 @@ def ndap_thanks():
     if not is_request_valid(request):
         abort(400)
     else: #Response to Slack
+        response_text_to_slack = None
         # Parse the parameters you need
         command = request.form.get('command', None)
         thx_who = request.form.get('user_name', None)
@@ -67,10 +68,16 @@ def ndap_thanks():
         except ValueError:
             logging.error(data[0] + " is not an int!")
 
-        return jsonify(
-            response_type='in_channel',
-            text='<https://youtu.be/frszEJb0aOo|General Kenobi!>',
-            )
+        if response_text_to_slack is not None:
+            return jsonify(
+                response_type='in_channel',
+                text=response_text_to_slack,
+                )
+        else:
+            return jsonify(
+                response_type='in_channel',
+                text='Something went terrible wrong :( warning @Mike',
+                )
 
 # A welcome message to our server
 @app.route('/', methods=['GET'])
