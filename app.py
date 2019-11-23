@@ -21,10 +21,12 @@ def ndap_thanks():
         response_text_to_slack = None
         # Parse the parameters you need
         command = request.form.get('command', None)
+        thx_user_id = request.form.get('user_id', None)
         thx_who = request.form.get('user_name', None)
         req_text = request.form.get('text', None)
         logging.info(thx_who)
         logging.info(req_text)
+        print(thx_user_id)
 
         #Split and convert to get the needed data
         data = req_text.split(" ",2)
