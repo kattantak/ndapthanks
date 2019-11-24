@@ -5,6 +5,16 @@ import logging
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 
+from moesifwsgi import MoesifMiddleware
+
+moesif_settings = {
+    'APPLICATION_ID': 'eyJhcHAiOiI2NzY6MjAxIiwidmVyIjoiMi4wIiwib3JnIjoiNDU2OjI2MSIsImlhdCI6MTU3NDQ2NzIwMH0.Bpbhu__hqp_5gsJbe_lDYrFfCo1K6gIe9VU2nS8-lH0',
+    'CAPTURE_OUTGOING_REQUESTS': False, # Set to True to also capture outgoing calls to 3rd parties.
+    'LOG_BODY': True,
+}
+
+app.wsgi_app = MoesifMiddleware(app.wsgi_app, moesif_settings)
+
 #logging.basicConfig(filename='example.log')
 logging.basicConfig(level=logging.INFO)
 
