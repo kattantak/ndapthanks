@@ -1,22 +1,45 @@
 # app.py
 import os
+import io
 import psycopg2
 import logging
-from flask import Flask, request, jsonify
-app = Flask(__name__)
-
+import urllib.parse
+from flask import Flask, request, jsonify, send_from_directory
 from moesifwsgi import MoesifMiddleware
+app = Flask(__name__)
+#logging.basicConfig(filename='example.log')
+logging.basicConfig(level=logging.INFO)
+
+def identifyUser(app, environ):
+        content_length = environ.get('CONTENT_LENGTH')
+        logging.debug(environ)
+        content_length = int(content_length)
+        readbytes = environ['wsgi.input'].read(content_length)
+        logging.debug(readbytes)
+        environ['wsgi.input'] = io.BytesIO(readbytes) # reset request body for the nested app Python3
+        raw_body = readbytes.decode('utf-8')
+        logging.debug(raw_body)
+        parsed_body = urllib.parse.parse_qs(raw_body)
+        moeif_user_id = parsed_body.get('user_name')[0]
+        logging.debug(parsed_body)
+        logging.info(moeif_user_id)
+        return moeif_user_id
+
+def identifyCompany(app, environ):
+    # return the company id here
+    return "NDAP"
 
 moesif_settings = {
     'APPLICATION_ID': 'eyJhcHAiOiI2NzY6MjAxIiwidmVyIjoiMi4wIiwib3JnIjoiNDU2OjI2MSIsImlhdCI6MTU3NDQ2NzIwMH0.Bpbhu__hqp_5gsJbe_lDYrFfCo1K6gIe9VU2nS8-lH0',
+    'DEBUG': False,
     'CAPTURE_OUTGOING_REQUESTS': False, # Set to True to also capture outgoing calls to 3rd parties.
+    'IDENTIFY_USER': identifyUser,
+    'IDENTIFY_COMPANY': identifyCompany,
     'LOG_BODY': True,
 }
 
 app.wsgi_app = MoesifMiddleware(app.wsgi_app, moesif_settings)
 
-#logging.basicConfig(filename='example.log')
-logging.basicConfig(level=logging.INFO)
 
 def is_request_valid(request):
     is_token_valid = request.form.get('token', None) == '6mPhVZmqSZ57QFfMioqhl1Ra'
@@ -37,6 +60,9 @@ def ndap_thanks():
         logging.info(thx_who)
         logging.info(thx_user_id)
         logging.info(req_text)
+
+        update_user = MoesifMiddleware(app, moesif_settings).update_user({'user_id': thx_who,'company_id': 'NDAP'})
+        update_company = MoesifMiddleware(app, moesif_settings).update_company({'company_id': 'NDAP'})
 
         #Split and convert to get the needed data
         data = req_text.split(" ",2)
@@ -99,6 +125,10 @@ def ndap_thanks():
 @app.route('/', methods=['GET'])
 def index():
     return "<h1>Welcome to NDAP Thanks!!</h1>"
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(app.root_path,'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
