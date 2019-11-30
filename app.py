@@ -15,15 +15,18 @@ def identifyUser(app, environ):
         logging.debug(environ)
         content_length = int(content_length)
         readbytes = environ['wsgi.input'].read(content_length)
-        logging.debug(readbytes)
+        logging.debug('wsgi_input in Bytes: %s', readbytes)
         environ['wsgi.input'] = io.BytesIO(readbytes) # reset request body for the nested app Python3
         raw_body = readbytes.decode('utf-8')
-        logging.debug(raw_body)
-        parsed_body = urllib.parse.parse_qs(raw_body)
-        moeif_user_id = parsed_body.get('user_name')[0]
-        logging.debug(parsed_body)
-        logging.info(moeif_user_id)
-        return moeif_user_id
+        logging.debug('wsgi_input in String: %s', raw_body)
+        if len(raw_body) > 0:
+            parsed_body = urllib.parse.parse_qs(raw_body)
+            moeif_user_id = parsed_body.get('user_name')[0]
+            logging.debug('Parsed body: %s', parsed_body)
+            logging.info('Moesif user id: %s', moeif_user_id)
+            return moeif_user_id
+        else:
+            return None
 
 def identifyCompany(app, environ):
     # return the company id here
@@ -57,9 +60,9 @@ def ndap_thanks():
         thx_user_id = request.form.get('user_id', None)
         thx_who = request.form.get('user_name', None)
         req_text = request.form.get('text', None)
-        logging.info(thx_who)
-        logging.info(thx_user_id)
-        logging.info(req_text)
+        logging.info('Thx Who: %s',thx_who)
+        logging.info('Thx User id: %s',thx_user_id)
+        logging.info('Thx Text: %s',req_text)
 
         update_user = MoesifMiddleware(app, moesif_settings).update_user({'user_id': thx_who,'company_id': 'NDAP'})
         update_company = MoesifMiddleware(app, moesif_settings).update_company({'company_id': 'NDAP'})
@@ -68,12 +71,12 @@ def ndap_thanks():
         data = req_text.split(" ",2)
         try:
             thx_amount = int(data[0])
-            logging.info(thx_amount)
-            if data[1][0] == '@':
+            logging.info('Thx Amount: %s',thx_amount)
+            if data[1][0] == '@' and len(data[1]) > 1 :
                 thx_to_whom = data[1][1:]
-                logging.info(thx_to_whom)
+                logging.info('Thx to Whom: %s',thx_to_whom)
                 thx_for_what = data[2]
-                logging.info(thx_for_what)
+                logging.info('Thx for What: %s',thx_for_what)
                 conn = None
                 try:
                     #set windows env variable
@@ -90,7 +93,7 @@ def ndap_thanks():
                     cur.execute(postgres_insert_query, record_to_insert)
                     # display the PostgreSQL database SQL result
                     db_sql_result = cur.fetchone()[0]
-                    logging.info('SQL Result: '+ str(db_sql_result))
+                    logging.info('SQL Result: %s', str(db_sql_result))
                     # commit the changes to the database
                     conn.commit()
                     # close the communication with the PostgreSQL
@@ -98,17 +101,17 @@ def ndap_thanks():
                     response_text_to_slack = 'Thank you for your kindness!'
                 except (Exception, psycopg2.DatabaseError) as error:
                     response_text_to_slack = 'Database Error :( warning <@UCGPL6H0E>'
-                    logging.error(error)
+                    logging.error('Database Error: %s', error)
                 finally:
                     if conn is not None:
                         conn.close()
                         logging.info('Database connection closed.')
             else:
                 response_text_to_slack = data[1] + " is not a valid '@mention' !"
-                logging.error(response_text_to_slack)
+                logging.error('Input Error: %s',response_text_to_slack)
         except ValueError:
             response_text_to_slack = data[0] + " is not an int!"
-            logging.error(response_text_to_slack)
+            logging.error('Input Error: %s', response_text_to_slack)
 
         if response_text_to_slack is not None:
             return jsonify(
