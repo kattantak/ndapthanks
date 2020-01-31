@@ -1,4 +1,4 @@
-# This is going to be the Slash command receiver
+# Hello dev !! This is going to be the Slash command receiver
 
 # The parameters included in a slash command request (with example values):
 # token=gIkuvaNzQIHg97ATvDxqgjtO
