@@ -89,6 +89,14 @@ def ndap_thanks():
                             conn = psycopg2.connect(DATABASE_URL, sslmode='require')
                             # create a cursor
                             cur = conn.cursor()
+
+                            #query data
+                            postgres_data_query = """SELECT  c_who, date_part('month', created_at) AS "Month", SUM(c_amount) AS "Points" FROM thanks_data WHERE c_who = '%s' GROUP BY date_part('month', created_at), c_who; """
+                            cur.execute(postgres_data_query, thx_who)
+                            # display the PostgreSQL database SQL result
+                            db_sql_result = cur.fetchone()[2]
+                            logging.info('SQL Result: %s', str(db_sql_result))
+
                             # execute a statement
                             postgres_insert_query = """INSERT INTO thanks_data (c_who, c_amount, c_to_whom, c_for_what) VALUES (%s, %s, %s, %s) RETURNING id;"""
                             record_to_insert = (thx_who,thx_amount, thx_to_whom,thx_for_what)
