@@ -91,11 +91,16 @@ def ndap_thanks():
             #message_type = data['type']
             thx_user_id = json_data['from']['id']
             thx_who = json_data['from']['name']
+            req_whom = json_data['entities']['0']['text']
+            logging.info('msteams req whom: %s',req_whom)
             #message_format = data['textFormat']
             req_text = json_data['text']
-            req_text = req_text.replace("<at>","")
+            req_text = req_text.replace("<at>test_thx</at>&nbsp;","")
+            req_text = req_text.replace(req_whom+"&nbsp;","")
             logging.info('msteams Text: %s',req_text)
-            data = req_text.split("</at>",2)
+            data = req_text.split(" ",1)
+            data[2] = data[1]
+            data[1] = req_whom
             logging.info('msteamsdata:0:%s:1:%s:2:%s:', data[0], data[1], data[2] )
 
         logging.info('Thx Who: %s',thx_who)
