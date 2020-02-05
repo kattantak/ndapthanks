@@ -72,45 +72,68 @@ def ndap_thanks():
         try:
             thx_amount = int(data[0])
             logging.info('Thx Amount: %s',thx_amount)
-            if data[1][0] == '@' and len(data[1]) > 1 :
-                thx_to_whom = data[1][1:]
-                logging.info('Thx to Whom: %s',thx_to_whom)
-                thx_for_what = data[2]
-                logging.info('Thx for What: %s',thx_for_what)
-                conn = None
-                try:
-                    #set windows env variable
-                    #set DATABASE_URL=postgres://vxkhlsqjazuwxi:9acac04cf61d6527f61d74c2036263653c7154934a04a7c24fa55d54f694d14c@ec2-54-228-207-163.eu-west-1.compute.amazonaws.com:5432/d6fhd2k9uscss7
-                    DATABASE_URL = os.environ['DATABASE_URL']
-                    # connect to the PostgreSQL server
-                    logging.info('Connecting to the PostgreSQL database...')
-                    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-                    # create a cursor
-                    cur = conn.cursor()
-                    # execute a statement
-                    postgres_insert_query = """INSERT INTO thanks_data (c_who, c_amount, c_to_whom, c_for_what) VALUES (%s, %s, %s, %s) RETURNING id;"""
-                    record_to_insert = (thx_who,thx_amount, thx_to_whom,thx_for_what)
-                    cur.execute(postgres_insert_query, record_to_insert)
-                    # display the PostgreSQL database SQL result
-                    db_sql_result = cur.fetchone()[0]
-                    logging.info('SQL Result: %s', str(db_sql_result))
-                    # commit the changes to the database
-                    conn.commit()
-                    # close the communication with the PostgreSQL
-                    cur.close()
-                    response_text_to_slack = 'Thank you for your kindness!'
-                except (Exception, psycopg2.DatabaseError) as error:
-                    response_text_to_slack = 'Database Error :( warning <@UCGPL6H0E>'
-                    logging.error('Database Error: %s', error)
-                finally:
-                    if conn is not None:
-                        conn.close()
-                        logging.info('Database connection closed.')
-            else:
-                response_text_to_slack = data[1] + " is not a valid '@mention' !"
-                logging.error('Input Error: %s',response_text_to_slack)
+            if thx_amount > 0 and thx_amount <=100 :
+                if data[1][0] == '@' and len(data[1]) > 1 :
+                    thx_to_whom = data[1][1:]
+                    logging.info('Thx to Whom: %s',thx_to_whom)
+                    thx_for_what = data[2]
+                    logging.info('Thx for What: %s',thx_for_what)
+                    if thx_to_whom != thx_who :
+                        conn = None
+                        try:
+                            #set windows env variable
+                            #set DATABASE_URL=postgres://vxkhlsqjazuwxi:9acac04cf61d6527f61d74c2036263653c7154934a04a7c24fa55d54f694d14c@ec2-54-228-207-163.eu-west-1.compute.amazonaws.com:5432/d6fhd2k9uscss7
+                            DATABASE_URL = os.environ['DATABASE_URL']
+                            # connect to the PostgreSQL server
+                            logging.info('Connecting to the PostgreSQL database...')
+                            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+                            # create a cursor
+                            cur = conn.cursor()
+
+                            #query data
+                            postgres_data_query = """SELECT  c_who, date_part('month', created_at) AS "Month", SUM(c_amount) AS "Points" FROM thanks_data WHERE c_who = %s AND date_part('month', created_at) = date_part('month',CURRENT_DATE) GROUP BY date_part('month', created_at), c_who; """
+                            cur.execute(postgres_data_query,(thx_who,))
+                            # display the PostgreSQL database SQL result
+                            db_sql_result_row = cur.fetchone()
+                            if db_sql_result_row:
+                                a_sent_points = db_sql_result_row[2]
+                            else:
+                                a_sent_points = 0
+                            logging.info('User sent points in actual month is : %s', str(a_sent_points))
+
+                            if (a_sent_points+thx_amount) <= 100 :
+                                # execute a statement
+                                postgres_insert_query = """INSERT INTO thanks_data (c_who, c_amount, c_to_whom, c_for_what) VALUES (%s, %s, %s, %s) RETURNING id;"""
+                                record_to_insert = (thx_who,thx_amount, thx_to_whom,thx_for_what)
+                                cur.execute(postgres_insert_query, record_to_insert)
+                                # display the PostgreSQL database SQL result
+                                db_sql_result = cur.fetchone()[0]
+                                logging.info('SQL Result: %s', str(db_sql_result))
+                                # commit the changes to the database
+                                conn.commit()
+                                # close the communication with the PostgreSQL
+                                cur.close()
+                                response_text_to_slack = ":+1: Thank you for your recognition! In this month you have spent *"+ str(a_sent_points+thx_amount) + "*/100 points"
+                            else:
+                                response_text_to_slack = ":-1: In this month you have already spent *"+ str(a_sent_points) + "*/100, so you have not enough remaining points for this!"
+                        except (Exception, psycopg2.DatabaseError) as error:
+                            response_text_to_slack = 'Database Error :( warning to <@UCGPL6H0E>'
+                            logging.error('Database Error: %s', error)
+                        finally:
+                            if conn is not None:
+                                conn.close()
+                                logging.info('Database connection closed.')
+                    else: #if thx_to_whom != thx_who
+                        response_text_to_slack = thx_to_whom + " --> Not fair to send points to yourself!"
+                        logging.error('Input Error: %s',response_text_to_slack)
+                else: #if data[1][0] == '@' and len(data[1]) > 1
+                    response_text_to_slack = data[1] + " --> This is not a valid '@mention' !"
+                    logging.error('Input Error: %s',response_text_to_slack)
+            else: #if thx_amount > 0
+                response_text_to_slack = data[0] + " --> Only integer numbers beetween 1 and 100 are allowed!"
+                logging.error('Input Error: %s', response_text_to_slack)
         except ValueError:
-            response_text_to_slack = data[0] + " is not an int!"
+            response_text_to_slack = data[0] + "--> This is not an integer number!"
             logging.error('Input Error: %s', response_text_to_slack)
 
         if response_text_to_slack is not None:
@@ -121,7 +144,7 @@ def ndap_thanks():
         else:
             return jsonify(
                 response_type='in_channel',
-                text='Something went terrible wrong :( warning <@UCGPL6H0E>',
+                text='Something went terrible wrong :( warning to <@UCGPL6H0E>',
                 )
 
 # A welcome message to our server
