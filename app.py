@@ -78,7 +78,7 @@ def ndap_thanks():
                     logging.info('Thx to Whom: %s',thx_to_whom)
                     thx_for_what = data[2]
                     logging.info('Thx for What: %s',thx_for_what)
-                    if thx_to_whom == thx_who :
+                    if thx_to_whom != thx_who :
                         conn = None
                         try:
                             #set windows env variable
