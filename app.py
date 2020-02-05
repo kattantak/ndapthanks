@@ -78,7 +78,7 @@ def ndap_thanks():
                     logging.info('Thx to Whom: %s',thx_to_whom)
                     thx_for_what = data[2]
                     logging.info('Thx for What: %s',thx_for_what)
-                    if thx_to_whom != thx_who :
+                    #if thx_to_whom != thx_who :
                         conn = None
                         try:
                             #set windows env variable
@@ -108,13 +108,13 @@ def ndap_thanks():
                             if conn is not None:
                                 conn.close()
                                 logging.info('Database connection closed.')
-                    else: #if thx_to_whom != thx_who
-                        response_text_to_slack = thx_to_whom + "--> Not allowed to send points to yourself!"
-                        logging.error('Input Error: %s',response_text_to_slack)
+                    #else: #if thx_to_whom != thx_who
+                    #    response_text_to_slack = thx_to_whom + "--> Not allowed to send points to yourself!"
+                    #    logging.error('Input Error: %s',response_text_to_slack)
                 else: #if data[1][0] == '@' and len(data[1]) > 1
                     response_text_to_slack = data[1] + "--> This is not a valid '@mention' !"
                     logging.error('Input Error: %s',response_text_to_slack)
-            else: #if thx_amount > 0 
+            else: #if thx_amount > 0
                 response_text_to_slack = thx_amount + "--> Only positive numbers are allowed!"
                 logging.error('Input Error: %s', response_text_to_slack)
         except ValueError:
