@@ -64,7 +64,7 @@ def ndap_thanks():
         logging.info('sender:  %s' ,sender)
 
         # Authenticate
-        security_token = b"O5XHU8OSzwx8w9YiM0URkR/Ij4TZZiZUwz7Swc+1hZE="
+        security_token = b"+EMX4C5xXrrTcv0r6GhuA3ufO1nMiQacUruezK/Kip0="
         request_data = request.get_data()
         digest = hmac.new(base64.b64decode(security_token), msg=request_data, digestmod=hashlib.sha256).digest()
         signature = base64.b64encode(digest).decode()
