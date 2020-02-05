@@ -5,6 +5,7 @@ import psycopg2
 import logging
 import urllib.parse
 from flask import Flask, request, jsonify, send_from_directory
+import hmac, hashlib, base64, json
 from moesifwsgi import MoesifMiddleware
 app = Flask(__name__)
 #logging.basicConfig(filename='example.log')
@@ -44,15 +45,36 @@ moesif_settings = {
 app.wsgi_app = MoesifMiddleware(app.wsgi_app, moesif_settings)
 
 
-def is_request_valid(request):
-    is_token_valid = request.form.get('token', None) == '6mPhVZmqSZ57QFfMioqhl1Ra'
-    is_team_valid = request.form.get('team_id', None) == 'T70DXRVH6'
-    return is_token_valid and is_team_valid
+def is_slack_request_valid(request):
+    is_slack_token_valid = request.form.get('token', None) == '6mPhVZmqSZ57QFfMioqhl1Ra'
+    is_slack_team_valid = request.form.get('team_id', None) == 'T70DXRVH6'
+    return is_slack_token_valid and is_slack_team_valid
 
 @app.route('/', methods=['POST'])
 def ndap_thanks():
-    if not is_request_valid(request):
-        abort(400)
+    if not is_slack_request_valid(request):
+        logging.info('Nem slack de lehet MSteams')
+        # Reply
+        data = request.get_json()
+        channel = data['channelId']
+        message_type = data['type']
+        sender = data['from']['name']
+        message_format = data['textFormat']
+        message = data['text']
+        logging.info('sender:  %s' ,sender)
+
+        # Authenticate
+        security_token = b"O5XHU8OSzwx8w9YiM0URkR/Ij4TZZiZUwz7Swc+1hZE="
+        request_data = request.get_data()
+        digest = hmac.new(base64.b64decode(security_token), msg=request_data, digestmod=hashlib.sha256).digest()
+        signature = base64.b64encode(digest).decode()
+        # TODO: verify that HMAC header == signature
+        return jsonify({
+            'type' : 'message',
+            'text' : "auth header: {0} <br>hmac: {1}".format(request.headers.get('Authorization').split(' ')[1], signature),
+            })
+            #abort(400)
+
     else: #Response to Slack
         response_text_to_slack = None
         # Parse the parameters you need
