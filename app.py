@@ -91,8 +91,8 @@ def ndap_thanks():
                             cur = conn.cursor()
 
                             #query data
-                            postgres_data_query = """SELECT  c_who, date_part('month', created_at) AS "Month", SUM(c_amount) AS "Points" FROM thanks_data WHERE c_who = 'zsolt.mike' GROUP BY date_part('month', created_at), c_who; """
-                            cur.execute(postgres_data_query)
+                            postgres_data_query = """SELECT  c_who, date_part('month', created_at) AS "Month", SUM(c_amount) AS "Points" FROM thanks_data WHERE c_who = %s AND date_part('month', created_at) = date_part('month',CURRENT_DATE) GROUP BY date_part('month', created_at), c_who; """
+                            cur.execute(postgres_data_query,(thx_who,))
                             # display the PostgreSQL database SQL result
                             db_sql_result = cur.fetchone()[0]
                             logging.info('SQL Result: %s', str(db_sql_result))
