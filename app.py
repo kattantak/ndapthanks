@@ -101,18 +101,21 @@ def ndap_thanks():
                                 a_sent_points = 0
                             logging.info('User sent points in actual month is : %s', str(a_sent_points))
 
-                            # execute a statement
-                            postgres_insert_query = """INSERT INTO thanks_data (c_who, c_amount, c_to_whom, c_for_what) VALUES (%s, %s, %s, %s) RETURNING id;"""
-                            record_to_insert = (thx_who,thx_amount, thx_to_whom,thx_for_what)
-                            cur.execute(postgres_insert_query, record_to_insert)
-                            # display the PostgreSQL database SQL result
-                            db_sql_result = cur.fetchone()[0]
-                            logging.info('SQL Result: %s', str(db_sql_result))
-                            # commit the changes to the database
-                            conn.commit()
-                            # close the communication with the PostgreSQL
-                            cur.close()
-                            response_text_to_slack = 'Thank you for your kindness!'
+                            if (a_sent_points+thx_amount) <= 100 :
+                                # execute a statement
+                                postgres_insert_query = """INSERT INTO thanks_data (c_who, c_amount, c_to_whom, c_for_what) VALUES (%s, %s, %s, %s) RETURNING id;"""
+                                record_to_insert = (thx_who,thx_amount, thx_to_whom,thx_for_what)
+                                cur.execute(postgres_insert_query, record_to_insert)
+                                # display the PostgreSQL database SQL result
+                                db_sql_result = cur.fetchone()[0]
+                                logging.info('SQL Result: %s', str(db_sql_result))
+                                # commit the changes to the database
+                                conn.commit()
+                                # close the communication with the PostgreSQL
+                                cur.close()
+                                response_text_to_slack = ":+1: Thank you for your recognition! In this month you have spent "+ str(a_sent_points) + "/100 Points"
+                            else:
+                                response_text_to_slack = ":-1: In this month you have already spent "+ str(a_sent_points) + "/100, so you have not enough remaining points for this!"
                         except (Exception, psycopg2.DatabaseError) as error:
                             response_text_to_slack = 'Database Error :( warning <@UCGPL6H0E>'
                             logging.error('Database Error: %s', error)
