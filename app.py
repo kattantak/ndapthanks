@@ -91,7 +91,7 @@ def ndap_thanks():
             #message_type = data['type']
             thx_user_id = json_data['from']['id']
             thx_who = json_data['from']['name']
-            req_whom = json_data['entities']['0']['text']
+            req_whom = json_data['entities'][0]['text']
             logging.info('msteams req whom: %s',req_whom)
             #message_format = data['textFormat']
             req_text = json_data['text']
