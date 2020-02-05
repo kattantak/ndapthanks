@@ -64,8 +64,10 @@ def ndap_thanks():
     client_type = None
     if is_slack_request_valid(request):
         client_type = "slack"
-    if is_ms_teams_request_valid(request) :
-        client_type = "msteams"
+    else:
+        if is_ms_teams_request_valid(request) :
+            client_type = "msteams"
+
     if  not client_type :
         abort(400)
     else: #Response to client
@@ -76,6 +78,7 @@ def ndap_thanks():
             thx_user_id = request.form.get('user_id', None)
             thx_who = request.form.get('user_name', None)
             req_text = request.form.get('text', None)
+            data = req_text.split(" ",2)
         else : #client_type = msteams
             json_data = request.get_json()
             #channel = data['channelId']
@@ -84,6 +87,10 @@ def ndap_thanks():
             thx_who = json_data['from']['name']
             #message_format = data['textFormat']
             req_text = json_data['text']
+            req_text = req_text.strip("<at>")
+            logging.info('msteams Text: %s',req_text)
+            data = req_text.split(" ",2)
+
 
         logging.info('Thx Who: %s',thx_who)
         logging.info('Thx User id: %s',thx_user_id)
@@ -92,8 +99,6 @@ def ndap_thanks():
         update_user = MoesifMiddleware(app, moesif_settings).update_user({'user_id': thx_who,'company_id': 'NDAP'})
         update_company = MoesifMiddleware(app, moesif_settings).update_company({'company_id': 'NDAP'})
 
-        #Split and convert to get the needed data
-        data = req_text.split(" ",2)
 #####################################################################################################################
         try:
             thx_amount = int(data[0])
@@ -183,7 +188,7 @@ def ndap_thanks():
             else:
                 return jsonify({
                     'type' : 'message',
-                    'text' : 'Something went terrible wrong :( warning to <at>Mike Zsolt</at>',
+                    'text' : 'Something went terrible wrong :( warning to <at>@zsolt.mike</at>',
                     })
 
 # A welcome message to our server
