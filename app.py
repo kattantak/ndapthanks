@@ -72,7 +72,7 @@ def ndap_thanks():
         try:
             thx_amount = int(data[0])
             logging.info('Thx Amount: %s',thx_amount)
-            if thx_amount > 0 :
+            if thx_amount > 0 and thx_amount <=100 :
                 if data[1][0] == '@' and len(data[1]) > 1 :
                     thx_to_whom = data[1][1:]
                     logging.info('Thx to Whom: %s',thx_to_whom)
@@ -113,24 +113,24 @@ def ndap_thanks():
                                 conn.commit()
                                 # close the communication with the PostgreSQL
                                 cur.close()
-                                response_text_to_slack = ":+1: Thank you for your recognition! In this month you have spent "+ str(a_sent_points) + "/100 Points"
+                                response_text_to_slack = ":+1: Thank you for your recognition! In this month you have spent *"+ str(a_sent_points+thx_amount) + "*/100 points"
                             else:
-                                response_text_to_slack = ":-1: In this month you have already spent "+ str(a_sent_points) + "/100, so you have not enough remaining points for this!"
+                                response_text_to_slack = ":-1: In this month you have already spent *"+ str(a_sent_points) + "*/100, so you have not enough remaining points for this!"
                         except (Exception, psycopg2.DatabaseError) as error:
-                            response_text_to_slack = 'Database Error :( warning <@UCGPL6H0E>'
+                            response_text_to_slack = 'Database Error :( warning to <@UCGPL6H0E>'
                             logging.error('Database Error: %s', error)
                         finally:
                             if conn is not None:
                                 conn.close()
                                 logging.info('Database connection closed.')
                     else: #if thx_to_whom != thx_who
-                        response_text_to_slack = thx_to_whom + " --> Not allowed to send points to yourself!"
+                        response_text_to_slack = thx_to_whom + " --> Not fair to send points to yourself!"
                         logging.error('Input Error: %s',response_text_to_slack)
                 else: #if data[1][0] == '@' and len(data[1]) > 1
                     response_text_to_slack = data[1] + " --> This is not a valid '@mention' !"
                     logging.error('Input Error: %s',response_text_to_slack)
             else: #if thx_amount > 0
-                response_text_to_slack = data[0] + " --> Only positive numbers are allowed!"
+                response_text_to_slack = data[0] + " --> Only integer numbers beetween 1 and 100 are allowed!"
                 logging.error('Input Error: %s', response_text_to_slack)
         except ValueError:
             response_text_to_slack = data[0] + "--> This is not an integer number!"
@@ -144,7 +144,7 @@ def ndap_thanks():
         else:
             return jsonify(
                 response_type='in_channel',
-                text='Something went terrible wrong :( warning <@UCGPL6H0E>',
+                text='Something went terrible wrong :( warning to <@UCGPL6H0E>',
                 )
 
 # A welcome message to our server
