@@ -50,30 +50,37 @@ def is_slack_request_valid(request):
     is_slack_team_valid = request.form.get('team_id', None) == 'T70DXRVH6'
     return is_slack_token_valid and is_slack_team_valid
 
+def is_ms_teams_request_valid (request):
+    # Authenticate
+    security_token = b"+EMX4C5xXrrTcv0r6GhuA3ufO1nMiQacUruezK/Kip0="
+    request_data = request.get_data()
+    digest = hmac.new(base64.b64decode(security_token), msg=request_data, digestmod=hashlib.sha256).digest()
+    signature = base64.b64encode(digest).decode()
+    #verify that HMAC header == signature
+    is_ms_teams_hmac_valid = request.headers.get('Authorization').split(' ')[1] == signature
+    return is_ms_teams_hmac_valid
+
 @app.route('/', methods=['POST'])
 def ndap_thanks():
     if not is_slack_request_valid(request):
         logging.info('Nem slack de lehet MSteams')
-        # Reply
-        data = request.get_json()
-        channel = data['channelId']
-        message_type = data['type']
-        sender = data['from']['name']
-        message_format = data['textFormat']
-        message = data['text']
-        logging.info('sender:  %s' ,sender)
 
-        # Authenticate
-        security_token = b"+EMX4C5xXrrTcv0r6GhuA3ufO1nMiQacUruezK/Kip0="
-        request_data = request.get_data()
-        digest = hmac.new(base64.b64decode(security_token), msg=request_data, digestmod=hashlib.sha256).digest()
-        signature = base64.b64encode(digest).decode()
-        # TODO: verify that HMAC header == signature
-        return jsonify({
-            'type' : 'message',
-            'text' : "auth header: {0} <br>hmac: {1}".format(request.headers.get('Authorization').split(' ')[1], signature),
-            })
-            #abort(400)
+        if is_ms_teams_request_valid(request) :
+            data = request.get_json()
+            channel = data['channelId']
+            message_type = data['type']
+            sender = data['from']['name']
+            message_format = data['textFormat']
+            message = data['text']
+            logging.info('sender:  %s' ,sender)
+
+            return jsonify({
+                'type' : 'message',
+                'text' : "Hello",
+                })
+
+        else:
+            abort(400)
 
     else: #Response to Slack
         response_text_to_slack = None
