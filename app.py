@@ -45,19 +45,25 @@ moesif_settings = {
 app.wsgi_app = MoesifMiddleware(app.wsgi_app, moesif_settings)
 
 def is_slack_request_valid(request):
-    is_slack_token_valid = request.form.get('token', None) == '6mPhVZmqSZ57QFfMioqhl1Ra'
-    is_slack_team_valid = request.form.get('team_id', None) == 'T70DXRVH6'
-    return is_slack_token_valid and is_slack_team_valid
+    try:
+        is_slack_token_valid = request.form.get('token', None) == '6mPhVZmqSZ57QFfMioqhl1Ra'
+        is_slack_team_valid = request.form.get('team_id', None) == 'T70DXRVH6'
+        return is_slack_token_valid and is_slack_team_valid
+    except:
+        return False
 
 def is_ms_teams_request_valid (request):
-    # Authenticate
-    security_token = b"+EMX4C5xXrrTcv0r6GhuA3ufO1nMiQacUruezK/Kip0="
-    request_data = request.get_data()
-    digest = hmac.new(base64.b64decode(security_token), msg=request_data, digestmod=hashlib.sha256).digest()
-    signature = base64.b64encode(digest).decode()
-    #verify that HMAC header == signature
-    is_ms_teams_hmac_valid = request.headers.get('Authorization').split(' ')[1] == signature
-    return is_ms_teams_hmac_valid
+    try:
+        # Authenticate
+        security_token = b"+EMX4C5xXrrTcv0r6GhuA3ufO1nMiQacUruezK/Kip0="
+        request_data = request.get_data()
+        digest = hmac.new(base64.b64decode(security_token), msg=request_data, digestmod=hashlib.sha256).digest()
+        signature = base64.b64encode(digest).decode()
+        #verify that HMAC header == signature
+        is_ms_teams_hmac_valid = request.headers.get('Authorization').split(' ')[1] == signature
+        return is_ms_teams_hmac_valid
+    except:
+        return False
 
 @app.route('/', methods=['POST'])
 def ndap_thanks():
@@ -87,10 +93,10 @@ def ndap_thanks():
             thx_who = json_data['from']['name']
             #message_format = data['textFormat']
             req_text = json_data['text']
-            req_text = req_text.strip("<at>")
+            req_text = req_text.replace("<at>","")
             logging.info('msteams Text: %s',req_text)
-            data = req_text.split(" ",2)
-
+            data = req_text.split("</at> ",2)
+            logging.info(data[0-2])
 
         logging.info('Thx Who: %s',thx_who)
         logging.info('Thx User id: %s',thx_user_id)
