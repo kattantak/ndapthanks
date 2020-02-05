@@ -109,13 +109,13 @@ def ndap_thanks():
                                 conn.close()
                                 logging.info('Database connection closed.')
                     else: #if thx_to_whom != thx_who
-                        response_text_to_slack = thx_to_whom + "--> Not allowed to send points to yourself!"
+                        response_text_to_slack = thx_to_whom + " --> Not allowed to send points to yourself!"
                         logging.error('Input Error: %s',response_text_to_slack)
                 else: #if data[1][0] == '@' and len(data[1]) > 1
-                    response_text_to_slack = data[1] + "--> This is not a valid '@mention' !"
+                    response_text_to_slack = data[1] + " --> This is not a valid '@mention' !"
                     logging.error('Input Error: %s',response_text_to_slack)
             else: #if thx_amount > 0
-                response_text_to_slack = thx_amount + "--> Only positive numbers are allowed!"
+                response_text_to_slack = data[0] + " --> Only positive numbers are allowed!"
                 logging.error('Input Error: %s', response_text_to_slack)
         except ValueError:
             response_text_to_slack = data[0] + "--> This is not an integer number!"
