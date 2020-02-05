@@ -22,10 +22,10 @@ def identifyUser(app, environ):
         logging.debug('wsgi_input in String: %s', raw_body)
         if len(raw_body) > 0:
             parsed_body = urllib.parse.parse_qs(raw_body)
-            moeif_user_id = parsed_body.get('user_name')[0]
+            moesif_user_id = parsed_body.get('user_name')[0]
             logging.debug('Parsed body: %s', parsed_body)
-            logging.info('Moesif user id: %s', moeif_user_id)
-            return moeif_user_id
+            logging.info('Moesif user id: %s', moesif_user_id)
+            return moesif_user_id
         else:
             return None
 
@@ -44,7 +44,6 @@ moesif_settings = {
 
 app.wsgi_app = MoesifMiddleware(app.wsgi_app, moesif_settings)
 
-
 def is_slack_request_valid(request):
     is_slack_token_valid = request.form.get('token', None) == '6mPhVZmqSZ57QFfMioqhl1Ra'
     is_slack_team_valid = request.form.get('team_id', None) == 'T70DXRVH6'
@@ -62,33 +61,30 @@ def is_ms_teams_request_valid (request):
 
 @app.route('/', methods=['POST'])
 def ndap_thanks():
-    if not is_slack_request_valid(request):
-        logging.info('Nem slack de lehet MSteams')
+    client_type = None
+    if is_slack_request_valid(request):
+        client_type = "slack"
+    if is_ms_teams_request_valid(request) :
+        client_type = "msteams"
+    if  not client_type :
+        abort(400)
+    else: #Response to client
+        response_text_to_client = None
+        # Parse the parameters from the message what you need
+        if client_type == "slack" :
+            #command = request.form.get('command', None)
+            thx_user_id = request.form.get('user_id', None)
+            thx_who = request.form.get('user_name', None)
+            req_text = request.form.get('text', None)
+        else : #client_type = msteams
+            json_data = request.get_json()
+            #channel = data['channelId']
+            #message_type = data['type']
+            thx_user_id = json_data['from']['id']
+            thx_who = json_data['from']['name']
+            #message_format = data['textFormat']
+            req_text = json_data['text']
 
-        if is_ms_teams_request_valid(request) :
-            data = request.get_json()
-            channel = data['channelId']
-            message_type = data['type']
-            sender = data['from']['name']
-            message_format = data['textFormat']
-            message = data['text']
-            logging.info('sender:  %s' ,sender)
-
-            return jsonify({
-                'type' : 'message',
-                'text' : "Hello",
-                })
-
-        else:
-            abort(400)
-
-    else: #Response to Slack
-        response_text_to_slack = None
-        # Parse the parameters you need
-        command = request.form.get('command', None)
-        thx_user_id = request.form.get('user_id', None)
-        thx_who = request.form.get('user_name', None)
-        req_text = request.form.get('text', None)
         logging.info('Thx Who: %s',thx_who)
         logging.info('Thx User id: %s',thx_user_id)
         logging.info('Thx Text: %s',req_text)
@@ -98,6 +94,7 @@ def ndap_thanks():
 
         #Split and convert to get the needed data
         data = req_text.split(" ",2)
+#####################################################################################################################
         try:
             thx_amount = int(data[0])
             logging.info('Thx Amount: %s',thx_amount)
@@ -107,6 +104,7 @@ def ndap_thanks():
                     logging.info('Thx to Whom: %s',thx_to_whom)
                     thx_for_what = data[2]
                     logging.info('Thx for What: %s',thx_for_what)
+
                     if thx_to_whom != thx_who :
                         conn = None
                         try:
@@ -142,11 +140,11 @@ def ndap_thanks():
                                 conn.commit()
                                 # close the communication with the PostgreSQL
                                 cur.close()
-                                response_text_to_slack = ":+1: Thank you for your recognition! In this month you have spent *"+ str(a_sent_points+thx_amount) + "*/100 points"
+                                response_text_to_client = ":+1: Thank you for your recognition! In this month you have spent *"+ str(a_sent_points+thx_amount) + "*/100 points"
                             else:
-                                response_text_to_slack = ":-1: In this month you have already spent *"+ str(a_sent_points) + "*/100, so you have not enough remaining points for this!"
+                                response_text_to_client = ":-1: In this month you have already spent *"+ str(a_sent_points) + "*/100, so you have not enough remaining points for this!"
                         except (Exception, psycopg2.DatabaseError) as error:
-                            response_text_to_slack = 'Database Error :( warning to <@UCGPL6H0E>'
+                            response_text_to_client = 'Database Error :( warning to <@UCGPL6H0E>'
                             logging.error('Database Error: %s', error)
                         finally:
                             if conn is not None:
@@ -154,27 +152,39 @@ def ndap_thanks():
                                 logging.info('Database connection closed.')
                     else: #if thx_to_whom != thx_who
                         response_text_to_slack = thx_to_whom + " --> Not fair to send points to yourself!"
-                        logging.error('Input Error: %s',response_text_to_slack)
+                        logging.error('Input Error: %s',response_text_to_client)
                 else: #if data[1][0] == '@' and len(data[1]) > 1
                     response_text_to_slack = data[1] + " --> This is not a valid '@mention' !"
-                    logging.error('Input Error: %s',response_text_to_slack)
+                    logging.error('Input Error: %s',response_text_to_client)
             else: #if thx_amount > 0
-                response_text_to_slack = data[0] + " --> Only integer numbers beetween 1 and 100 are allowed!"
-                logging.error('Input Error: %s', response_text_to_slack)
+                    response_text_to_slack = data[0] + " --> Only integer numbers beetween 1 and 100 are allowed!"
+                    logging.error('Input Error: %s', response_text_to_client)
         except ValueError:
             response_text_to_slack = data[0] + "--> This is not an integer number!"
-            logging.error('Input Error: %s', response_text_to_slack)
-
-        if response_text_to_slack is not None:
-            return jsonify(
-                response_type='in_channel',
-                text=response_text_to_slack,
-                )
-        else:
-            return jsonify(
-                response_type='in_channel',
-                text='Something went terrible wrong :( warning to <@UCGPL6H0E>',
-                )
+            logging.error('Input Error: %s', response_text_to_client)
+#####################################################################################################################
+        if client_type == "slack" :
+            if response_text_to_client is not None:
+                return jsonify(
+                    response_type='in_channel',
+                    text= response_text_to_client,
+                    )
+            else:
+                return jsonify(
+                    response_type='in_channel',
+                    text='Something went terrible wrong :( warning to <@UCGPL6H0E>',
+                    )
+        else: #client_type = msteams
+            if response_text_to_client is not None:
+                return jsonify({
+                    'type' : 'message',
+                    'text' : response_text_to_client,
+                    })
+            else:
+                return jsonify({
+                    'type' : 'message',
+                    'text' : 'Something went terrible wrong :( warning to <at>Mike Zsolt</at>',
+                    })
 
 # A welcome message to our server
 @app.route('/', methods=['GET'])
