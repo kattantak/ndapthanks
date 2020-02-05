@@ -95,8 +95,8 @@ def ndap_thanks():
             req_text = json_data['text']
             req_text = req_text.replace("<at>","")
             logging.info('msteams Text: %s',req_text)
-            data = req_text.split("</at> ",2)
-            logging.info(data[0-2])
+            data = req_text.split("</at>",2)
+            logging.info('msteamsdata:0:%s:1:%s:2:%s:', data[0], data[1], data[2] )
 
         logging.info('Thx Who: %s',thx_who)
         logging.info('Thx User id: %s',thx_user_id)
