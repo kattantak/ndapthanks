@@ -61,6 +61,7 @@ def is_ms_teams_request_valid (request):
         signature = base64.b64encode(digest).decode()
         #verify that HMAC header == signature
         is_ms_teams_hmac_valid = request.headers.get('Authorization').split(' ')[1] == signature
+        logging.info('HMAC signature: %s',signature)
         return is_ms_teams_hmac_valid
     except:
         return False
@@ -72,7 +73,7 @@ def ndap_thanks():
     if is_slack_request_valid(request):
         client_type = "slack"
     else:
-        #if is_ms_teams_request_valid(request) :   #check msteams message validity based on HMAC
+        if is_ms_teams_request_valid(request) :   #check msteams message validity based on HMAC
             client_type = "msteams"
     if not client_type :
         abort(400)
@@ -132,7 +133,7 @@ def ndap_thanks():
             logging.info('msteams req whom: %s',req_whom)
             if number_of_mentions == 0 :
                 input_data_error = True
-                response_text_to_client = " No valid mention is Found!"
+                response_text_to_client = "No valid mention is Found!"
                 logging.error('Input Error: %s',response_text_to_client)#message_format = data['textFormat']
 
             req_text = req_text.replace("&nbsp;","")
@@ -221,7 +222,6 @@ def ndap_thanks():
                     text='Something went terrible wrong :( warning to <@UCGPL6H0E>',
                     )
         else: #client_type = msteams
-            response_text_to_client = None
             if response_text_to_client is not None:
                 return jsonify({
                     'type' : 'message',
