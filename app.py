@@ -239,12 +239,6 @@ def ndap_thanks():
                                                             "name": "Mike, Zsolt (Nokia - HU/Budapest)"
                                                             },
                                               "text": "<at>Mike, Zsolt (Nokia - HU/Budapest)</at>"
-                                              },
-                                            {
-                                              "type": "clientInfo",
-                                              "locale": "en-US",
-                                              "country": "US",
-                                              "platform": "Web"
                                               }
                                             ],
                                 })
