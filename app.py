@@ -56,8 +56,11 @@ def is_slack_request_valid(request):
 def is_ms_teams_request_valid (request):
     try:
         # Authenticate
-        security_token = b"+EMX4C5xXrrTcv0r6GhuA3ufO1nMiQacUruezK/Kip0="
         request_data = request.get_data()
+        if request.headers.get('Host') == "ndapthanks.herokuapp.com" :
+            security_token = b"0TUoDa/b9pWPDG0F3N/bGdX4OfVhwv3KcLzgWrsqi2g="   #thx webhook -- production  version
+        else:
+            security_token = b"+EMX4C5xXrrTcv0r6GhuA3ufO1nMiQacUruezK/Kip0="   #test_thx webhook -- test version      
         digest = hmac.new(base64.b64decode(security_token), msg=request_data, digestmod=hashlib.sha256).digest()
         signature = base64.b64encode(digest).decode()
         #verify that HMAC header == signature
