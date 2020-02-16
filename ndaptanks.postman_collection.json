@@ -1,0 +1,1142 @@
+{
+	"info": {
+		"_postman_id": "8203f836-6347-4fd0-8215-3a27753b0652",
+		"name": "ndaptanks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ndapthanks_slack_test_message",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8839571a-beeb-4ce9-a16c-59090b9ca9b0",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\":+1: Thank you for your recognition!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "X-Slack-Signature",
+						"value": "v0=d68d0e054e98fe8376bb4e8dc76ce2c3038b2ec7ff9bdde88c902ebdb8fad6c5"
+					},
+					{
+						"key": "X-Forwarded-For",
+						"value": "54.85.44.145"
+					},
+					{
+						"key": "X-Forwarded-Proto",
+						"value": "https"
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "82ec08ba-a119-4402-82b2-23ca0462dbda"
+					},
+					{
+						"key": "X-Forwarded-Port",
+						"value": "443"
+					},
+					{
+						"key": "Total-Route-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Moesif-Transaction-Id",
+						"value": "45516c51-c12f-4e23-84a1-f3bdae86410f"
+					},
+					{
+						"key": "Connect-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Request-Start",
+						"value": "1581635429314"
+					},
+					{
+						"key": "Via",
+						"value": "1.1 vegur"
+					},
+					{
+						"key": "X-Slack-Request-Timestamp",
+						"value": "1581635429"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "6mPhVZmqSZ57QFfMioqhl1Ra",
+							"type": "text"
+						},
+						{
+							"key": "team_id",
+							"value": "T70DXRVH6",
+							"type": "text"
+						},
+						{
+							"key": "team_domain",
+							"value": "nokia-devops-server",
+							"type": "text"
+						},
+						{
+							"key": "channel_id",
+							"value": "C70DXRYAU",
+							"type": "text"
+						},
+						{
+							"key": "channel_name",
+							"value": "general",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "UBVSG624A",
+							"type": "text"
+						},
+						{
+							"key": "user_name",
+							"value": "zsolt.rajko",
+							"type": "text"
+						},
+						{
+							"key": "command",
+							"value": "/thx",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "30 @botond.deli for Your help to troubleshoot why SW onboarding fails in TMO-Lab",
+							"type": "text"
+						},
+						{
+							"key": "response_url",
+							"value": "https://hooks.slack.com/commands/T70DXRVH6/940374926499/OdM7XD4vod6iLLd4KwBm3wHA",
+							"type": "text"
+						},
+						{
+							"key": "trigger_id",
+							"value": "939054487106.238473879584.1a948556bbd40a1cfec482361ed4e43d",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "msteams_test_with_no_mention",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "044c67a2-36d3-414a-8841-bd9f1d6687d8",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"No valid mention is Found!\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Forwarded-Proto",
+						"value": "https"
+					},
+					{
+						"key": "Total-Route-Time",
+						"value": "0"
+					},
+					{
+						"key": "Authorization",
+						"value": "HMAC TwU+jRHhsSlV6MK4X4NUKkKtelw1dYPo/cGleCwNv7U="
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "bf83d446-f7df-4776-89b6-cb65de7480a1"
+					},
+					{
+						"key": "X-Request-Start",
+						"value": "1581694470213"
+					},
+					{
+						"key": "X-Moesif-Transaction-Id",
+						"value": "c2da3315-7738-432a-8074-9677038ca909"
+					},
+					{
+						"key": "X-Ms-Request-Id",
+						"value": "2252549c-103e-441f-bd16-a611afe7bd76"
+					},
+					{
+						"key": "Connect-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Forwarded-For",
+						"value": "52.114.77.35"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Ms-Session-Id",
+						"value": "1849810825307546005"
+					},
+					{
+						"key": "X-Forwarded-Port",
+						"value": "443"
+					},
+					{
+						"key": "Via",
+						"value": "1.1 vegur"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"message\",\r\n  \"id\": \"1581703102448\",\r\n  \"timestamp\": \"2020-02-14T17:58:22.508Z\",\r\n  \"localTimestamp\": \"2020-02-14T18:58:22.508+01:00\",\r\n  \"serviceUrl\": \"https://smba.trafficmanager.net/emea/\",\r\n  \"channelId\": \"msteams\",\r\n  \"from\": {\r\n    \"id\": \"29:1VxxSgQwN1CFYVwaeBLKjSgjxw27O2jfZgUWsLUYTcNyoV3wDSJkJZWk3ovFGbPFUulKemahFEqOLpJjRgLh1Eg\",\r\n    \"name\": \"Mike, Zsolt (Nokia - HU/Budapest)\",\r\n    \"aadObjectId\": \"80ff9cae-d60d-4763-ab0f-917812931383\"\r\n  },\r\n  \"conversation\": {\r\n    \"isGroup\": true,\r\n    \"id\": \"19:844402107b5c46849314a32f59e2604a@thread.skype;messageid=1581703102448\",\r\n    \"name\": null,\r\n    \"conversationType\": \"channel\",\r\n    \"tenantId\": \"5d471751-9675-428d-917b-70f44f9630b0\"\r\n  },\r\n  \"recipient\": null,\r\n  \"textFormat\": \"plain\",\r\n  \"attachmentLayout\": null,\r\n  \"membersAdded\": [],\r\n  \"membersRemoved\": [],\r\n  \"topicName\": null,\r\n  \"historyDisclosed\": null,\r\n  \"locale\": \"en-US\",\r\n  \"text\": \"<at>test_thx</at>&nbsp;10 valaki valemiert\\n\",\r\n  \"speak\": null,\r\n  \"inputHint\": null,\r\n  \"summary\": null,\r\n  \"suggestedActions\": null,\r\n  \"attachments\": [\r\n    {\r\n      \"contentType\": \"text/html\",\r\n      \"contentUrl\": null,\r\n      \"content\": \"<div><div><span itemscope=\\\"\\\" itemtype=\\\"http://schema.skype.com/Mention\\\" itemid=\\\"0\\\">test_thx</span>&nbsp;10 valaki valemiert</div>\\n</div>\",\r\n      \"name\": null,\r\n      \"thumbnailUrl\": null\r\n    }\r\n  ],\r\n  \"entities\": [\r\n    {\r\n      \"type\": \"clientInfo\",\r\n      \"locale\": \"en-US\",\r\n      \"country\": \"US\",\r\n      \"platform\": \"Web\"\r\n    }\r\n  ],\r\n  \"channelData\": {\r\n    \"teamsChannelId\": \"19:844402107b5c46849314a32f59e2604a@thread.skype\",\r\n    \"teamsTeamId\": \"19:b71f18186b1b496f8a4e0157df1b0005@thread.skype\",\r\n    \"channel\": {\r\n      \"id\": \"19:844402107b5c46849314a32f59e2604a@thread.skype\"\r\n    },\r\n    \"team\": {\r\n      \"id\": \"19:b71f18186b1b496f8a4e0157df1b0005@thread.skype\"\r\n    },\r\n    \"tenant\": {\r\n      \"id\": \"5d471751-9675-428d-917b-70f44f9630b0\"\r\n    }\r\n  },\r\n  \"action\": null,\r\n  \"replyToId\": null,\r\n  \"value\": null,\r\n  \"name\": null,\r\n  \"relatesTo\": null,\r\n  \"code\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "msteams_test_with_one_mention",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "467dee55-da19-4341-8f63-627e4594f987",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\":+1: Thank you for your recognition!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6234c458-f96c-466f-86db-9b0400fe8fde",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Forwarded-Proto",
+						"value": "https"
+					},
+					{
+						"key": "Total-Route-Time",
+						"value": "0"
+					},
+					{
+						"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+						"key": "Authorization",
+						"value": "HMAC bwP9gCcBTFm5AMQ9ML8MVvqyBmQnK6v2wtYrnY0ORfQ="
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "bf83d446-f7df-4776-89b6-cb65de7480a1"
+					},
+					{
+						"key": "X-Request-Start",
+						"value": "1581694470213"
+					},
+					{
+						"key": "X-Moesif-Transaction-Id",
+						"value": "c2da3315-7738-432a-8074-9677038ca909"
+					},
+					{
+						"key": "X-Ms-Request-Id",
+						"value": "2252549c-103e-441f-bd16-a611afe7bd76"
+					},
+					{
+						"key": "Connect-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Forwarded-For",
+						"value": "52.114.77.35"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Ms-Session-Id",
+						"value": "1849810825307546005"
+					},
+					{
+						"key": "X-Forwarded-Port",
+						"value": "443"
+					},
+					{
+						"key": "Via",
+						"value": "1.1 vegur"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"message\",\r\n  \"id\": \"1581694469858\",\r\n  \"timestamp\": \"2020-02-14T15:34:29.909Z\",\r\n  \"localTimestamp\": \"2020-02-14T16:34:29.909+01:00\",\r\n  \"serviceUrl\": \"https://smba.trafficmanager.net/emea/\",\r\n  \"channelId\": \"msteams\",\r\n  \"from\": {\r\n    \"id\": \"29:1VxxSgQwN1CFYVwaeBLKjSgjxw27O2jfZgUWsLUYTcNyoV3wDSJkJZWk3ovFGbPFUulKemahFEqOLpJjRgLh1Eg\",\r\n    \"name\": \"Mike, Zsolt (Nokia - HU/Budapest)\",\r\n    \"aadObjectId\": \"80ff9cae-d60d-4763-ab0f-917812931383\"\r\n  },\r\n  \"conversation\": {\r\n    \"isGroup\": true,\r\n    \"id\": \"19:844402107b5c46849314a32f59e2604a@thread.skype;messageid=1581694469858\",\r\n    \"name\": null,\r\n    \"conversationType\": \"channel\",\r\n    \"tenantId\": \"5d471751-9675-428d-917b-70f44f9630b0\"\r\n  },\r\n  \"recipient\": null,\r\n  \"textFormat\": \"plain\",\r\n  \"attachmentLayout\": null,\r\n  \"membersAdded\": [],\r\n  \"membersRemoved\": [],\r\n  \"topicName\": null,\r\n  \"historyDisclosed\": null,\r\n  \"locale\": \"en-US\",\r\n  \"text\": \"<at>test_thx</at>&nbsp;10 <at>Hidasi, Balazs (Nokia - HU/Budapest)</at>&nbsp;teszt sokadik\\n\",\r\n  \"speak\": null,\r\n  \"inputHint\": null,\r\n  \"summary\": null,\r\n  \"suggestedActions\": null,\r\n  \"attachments\": [\r\n    {\r\n      \"contentType\": \"text/html\",\r\n      \"contentUrl\": null,\r\n      \"content\": \"<div><div><span itemscope=\\\"\\\" itemtype=\\\"http://schema.skype.com/Mention\\\" itemid=\\\"0\\\">test_thx</span>&nbsp;10 <span itemscope=\\\"\\\" itemtype=\\\"http://schema.skype.com/Mention\\\" itemid=\\\"2\\\">Hidasi, Balazs (Nokia - HU/Budapest)</span>&nbsp;teszt sokadik</div>\\n</div>\",\r\n      \"name\": null,\r\n      \"thumbnailUrl\": null\r\n    }\r\n  ],\r\n  \"entities\": [\r\n    {\r\n      \"type\": \"mention\",\r\n      \"mentioned\": {\r\n        \"id\": \"29:1Ia0GIi57QDGL6cbV0aN9SNzUHYjqUi6eT1peciq8OcTB-KRE1VRzUYsC-5sZ18UtBiVPYPCUSNRe4vOEAdsRiA\",\r\n        \"name\": \"Hidasi, Balazs (Nokia - HU/Budapest)\"\r\n      },\r\n      \"text\": \"<at>Hidasi, Balazs (Nokia - HU/Budapest)</at>\"\r\n    },\r\n    {\r\n      \"type\": \"clientInfo\",\r\n      \"locale\": \"en-US\",\r\n      \"country\": \"US\",\r\n      \"platform\": \"Web\"\r\n    }\r\n  ],\r\n  \"channelData\": {\r\n    \"teamsChannelId\": \"19:844402107b5c46849314a32f59e2604a@thread.skype\",\r\n    \"teamsTeamId\": \"19:b71f18186b1b496f8a4e0157df1b0005@thread.skype\",\r\n    \"channel\": {\r\n      \"id\": \"19:844402107b5c46849314a32f59e2604a@thread.skype\"\r\n    },\r\n    \"team\": {\r\n      \"id\": \"19:b71f18186b1b496f8a4e0157df1b0005@thread.skype\"\r\n    },\r\n    \"tenant\": {\r\n      \"id\": \"5d471751-9675-428d-917b-70f44f9630b0\"\r\n    }\r\n  },\r\n  \"action\": null,\r\n  \"replyToId\": null,\r\n  \"value\": null,\r\n  \"name\": null,\r\n  \"relatesTo\": null,\r\n  \"code\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "msteams_test_with_two_mention",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26607f28-3f07-4923-9334-5e52866817d2",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\":+1: Thank you for your recognition!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Forwarded-Proto",
+						"value": "https"
+					},
+					{
+						"key": "Total-Route-Time",
+						"value": "0"
+					},
+					{
+						"key": "Authorization",
+						"value": "HMAC CCajvySkCBZ7+Nrw9XkJ5eoaUQ0ZFo/E5PQNLp3XR/w="
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "bf83d446-f7df-4776-89b6-cb65de7480a1"
+					},
+					{
+						"key": "X-Request-Start",
+						"value": "1581694470213"
+					},
+					{
+						"key": "X-Moesif-Transaction-Id",
+						"value": "c2da3315-7738-432a-8074-9677038ca909"
+					},
+					{
+						"key": "X-Ms-Request-Id",
+						"value": "2252549c-103e-441f-bd16-a611afe7bd76"
+					},
+					{
+						"key": "Connect-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Forwarded-For",
+						"value": "52.114.77.35"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Ms-Session-Id",
+						"value": "1849810825307546005"
+					},
+					{
+						"key": "X-Forwarded-Port",
+						"value": "443"
+					},
+					{
+						"key": "Via",
+						"value": "1.1 vegur"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"message\",\r\n  \"id\": \"1581703413545\",\r\n  \"timestamp\": \"2020-02-14T18:03:33.614Z\",\r\n  \"localTimestamp\": \"2020-02-14T19:03:33.614+01:00\",\r\n  \"serviceUrl\": \"https://smba.trafficmanager.net/emea/\",\r\n  \"channelId\": \"msteams\",\r\n  \"from\": {\r\n    \"id\": \"29:1VxxSgQwN1CFYVwaeBLKjSgjxw27O2jfZgUWsLUYTcNyoV3wDSJkJZWk3ovFGbPFUulKemahFEqOLpJjRgLh1Eg\",\r\n    \"name\": \"Mike, Zsolt (Nokia - HU/Budapest)\",\r\n    \"aadObjectId\": \"80ff9cae-d60d-4763-ab0f-917812931383\"\r\n  },\r\n  \"conversation\": {\r\n    \"isGroup\": true,\r\n    \"id\": \"19:844402107b5c46849314a32f59e2604a@thread.skype;messageid=1581703413545\",\r\n    \"name\": null,\r\n    \"conversationType\": \"channel\",\r\n    \"tenantId\": \"5d471751-9675-428d-917b-70f44f9630b0\"\r\n  },\r\n  \"recipient\": null,\r\n  \"textFormat\": \"plain\",\r\n  \"attachmentLayout\": null,\r\n  \"membersAdded\": [],\r\n  \"membersRemoved\": [],\r\n  \"topicName\": null,\r\n  \"historyDisclosed\": null,\r\n  \"locale\": \"en-US\",\r\n  \"text\": \"<at>test_thx</at>&nbsp;10 <at>Hidasi, Balazs (Nokia - HU/Budapest)</at>&nbsp;<at>Fucsek, Tibor (Nokia - HU/Budapest)</at> testing\\n\",\r\n  \"speak\": null,\r\n  \"inputHint\": null,\r\n  \"summary\": null,\r\n  \"suggestedActions\": null,\r\n  \"attachments\": [\r\n    {\r\n      \"contentType\": \"text/html\",\r\n      \"contentUrl\": null,\r\n      \"content\": \"<div><div><span itemscope=\\\"\\\" itemtype=\\\"http://schema.skype.com/Mention\\\" itemid=\\\"0\\\">test_thx</span>&nbsp;10 <span itemscope=\\\"\\\" itemtype=\\\"http://schema.skype.com/Mention\\\" itemid=\\\"2\\\">Hidasi, Balazs (Nokia - HU/Budapest)</span>&nbsp;<span itemscope=\\\"\\\" itemtype=\\\"http://schema.skype.com/Mention\\\" itemid=\\\"3\\\">Fucsek, Tibor (Nokia - HU/Budapest)</span> testing</div>\\n</div>\",\r\n      \"name\": null,\r\n      \"thumbnailUrl\": null\r\n    }\r\n  ],\r\n  \"entities\": [\r\n    {\r\n      \"type\": \"mention\",\r\n      \"mentioned\": {\r\n        \"id\": \"29:1Ia0GIi57QDGL6cbV0aN9SNzUHYjqUi6eT1peciq8OcTB-KRE1VRzUYsC-5sZ18UtBiVPYPCUSNRe4vOEAdsRiA\",\r\n        \"name\": \"Hidasi, Balazs (Nokia - HU/Budapest)\"\r\n      },\r\n      \"text\": \"<at>Hidasi, Balazs (Nokia - HU/Budapest)</at>\"\r\n    },\r\n    {\r\n      \"type\": \"mention\",\r\n      \"mentioned\": {\r\n        \"id\": \"29:1S6pGsjOuTsPl7SVKwuZXtT42eEKh5JaIfiXd8mvIMMlR3mykZWkTahQF9ATf0lZKVVcrM0EeZ8RnwdBAPuGksA\",\r\n        \"name\": \"Fucsek, Tibor (Nokia - HU/Budapest)\"\r\n      },\r\n      \"text\": \"<at>Fucsek, Tibor (Nokia - HU/Budapest)</at>\"\r\n    },\r\n    {\r\n      \"type\": \"clientInfo\",\r\n      \"locale\": \"en-US\",\r\n      \"country\": \"US\",\r\n      \"platform\": \"Web\"\r\n    }\r\n  ],\r\n  \"channelData\": {\r\n    \"teamsChannelId\": \"19:844402107b5c46849314a32f59e2604a@thread.skype\",\r\n    \"teamsTeamId\": \"19:b71f18186b1b496f8a4e0157df1b0005@thread.skype\",\r\n    \"channel\": {\r\n      \"id\": \"19:844402107b5c46849314a32f59e2604a@thread.skype\"\r\n    },\r\n    \"team\": {\r\n      \"id\": \"19:b71f18186b1b496f8a4e0157df1b0005@thread.skype\"\r\n    },\r\n    \"tenant\": {\r\n      \"id\": \"5d471751-9675-428d-917b-70f44f9630b0\"\r\n    }\r\n  },\r\n  \"action\": null,\r\n  \"replyToId\": null,\r\n  \"value\": null,\r\n  \"name\": null,\r\n  \"relatesTo\": null,\r\n  \"code\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ndapthanks-next-release-erqocg.herokuapp.com",
+					"protocol": "https",
+					"host": [
+						"ndapthanks-next-release-erqocg",
+						"herokuapp",
+						"com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "msteams_test_two_mention_over100",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26607f28-3f07-4923-9334-5e52866817d2",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"so you have not enough remaining points for this!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Forwarded-Proto",
+						"value": "https"
+					},
+					{
+						"key": "Total-Route-Time",
+						"value": "0"
+					},
+					{
+						"key": "Authorization",
+						"value": "HMAC /sbtuWhN5lMHp+eRp0s1Kioub49i74+PH4OrtfAKs4M="
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "bf83d446-f7df-4776-89b6-cb65de7480a1"
+					},
+					{
+						"key": "X-Request-Start",
+						"value": "1581694470213"
+					},
+					{
+						"key": "X-Moesif-Transaction-Id",
+						"value": "c2da3315-7738-432a-8074-9677038ca909"
+					},
+					{
+						"key": "X-Ms-Request-Id",
+						"value": "2252549c-103e-441f-bd16-a611afe7bd76"
+					},
+					{
+						"key": "Connect-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Forwarded-For",
+						"value": "52.114.77.35"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Ms-Session-Id",
+						"value": "1849810825307546005"
+					},
+					{
+						"key": "X-Forwarded-Port",
+						"value": "443"
+					},
+					{
+						"key": "Via",
+						"value": "1.1 vegur"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"message\",\r\n  \"id\": \"1581703413545\",\r\n  \"timestamp\": \"2020-02-14T18:03:33.614Z\",\r\n  \"localTimestamp\": \"2020-02-14T19:03:33.614+01:00\",\r\n  \"serviceUrl\": \"https://smba.trafficmanager.net/emea/\",\r\n  \"channelId\": \"msteams\",\r\n  \"from\": {\r\n    \"id\": \"29:1VxxSgQwN1CFYVwaeBLKjSgjxw27O2jfZgUWsLUYTcNyoV3wDSJkJZWk3ovFGbPFUulKemahFEqOLpJjRgLh1Eg\",\r\n    \"name\": \"Mike, Zsolt (Nokia - HU/Budapest)\",\r\n    \"aadObjectId\": \"80ff9cae-d60d-4763-ab0f-917812931383\"\r\n  },\r\n  \"conversation\": {\r\n    \"isGroup\": true,\r\n    \"id\": \"19:844402107b5c46849314a32f59e2604a@thread.skype;messageid=1581703413545\",\r\n    \"name\": null,\r\n    \"conversationType\": \"channel\",\r\n    \"tenantId\": \"5d471751-9675-428d-917b-70f44f9630b0\"\r\n  },\r\n  \"recipient\": null,\r\n  \"textFormat\": \"plain\",\r\n  \"attachmentLayout\": null,\r\n  \"membersAdded\": [],\r\n  \"membersRemoved\": [],\r\n  \"topicName\": null,\r\n  \"historyDisclosed\": null,\r\n  \"locale\": \"en-US\",\r\n  \"text\": \"<at>test_thx</at>&nbsp;60 <at>Hidasi, Balazs (Nokia - HU/Budapest)</at>&nbsp;<at>Fucsek, Tibor (Nokia - HU/Budapest)</at> testing\\n\",\r\n  \"speak\": null,\r\n  \"inputHint\": null,\r\n  \"summary\": null,\r\n  \"suggestedActions\": null,\r\n  \"attachments\": [\r\n    {\r\n      \"contentType\": \"text/html\",\r\n      \"contentUrl\": null,\r\n      \"content\": \"<div><div><span itemscope=\\\"\\\" itemtype=\\\"http://schema.skype.com/Mention\\\" itemid=\\\"0\\\">test_thx</span>&nbsp;10 <span itemscope=\\\"\\\" itemtype=\\\"http://schema.skype.com/Mention\\\" itemid=\\\"2\\\">Hidasi, Balazs (Nokia - HU/Budapest)</span>&nbsp;<span itemscope=\\\"\\\" itemtype=\\\"http://schema.skype.com/Mention\\\" itemid=\\\"3\\\">Fucsek, Tibor (Nokia - HU/Budapest)</span> testing</div>\\n</div>\",\r\n      \"name\": null,\r\n      \"thumbnailUrl\": null\r\n    }\r\n  ],\r\n  \"entities\": [\r\n    {\r\n      \"type\": \"mention\",\r\n      \"mentioned\": {\r\n        \"id\": \"29:1Ia0GIi57QDGL6cbV0aN9SNzUHYjqUi6eT1peciq8OcTB-KRE1VRzUYsC-5sZ18UtBiVPYPCUSNRe4vOEAdsRiA\",\r\n        \"name\": \"Hidasi, Balazs (Nokia - HU/Budapest)\"\r\n      },\r\n      \"text\": \"<at>Hidasi, Balazs (Nokia - HU/Budapest)</at>\"\r\n    },\r\n    {\r\n      \"type\": \"mention\",\r\n      \"mentioned\": {\r\n        \"id\": \"29:1S6pGsjOuTsPl7SVKwuZXtT42eEKh5JaIfiXd8mvIMMlR3mykZWkTahQF9ATf0lZKVVcrM0EeZ8RnwdBAPuGksA\",\r\n        \"name\": \"Fucsek, Tibor (Nokia - HU/Budapest)\"\r\n      },\r\n      \"text\": \"<at>Fucsek, Tibor (Nokia - HU/Budapest)</at>\"\r\n    },\r\n    {\r\n      \"type\": \"clientInfo\",\r\n      \"locale\": \"en-US\",\r\n      \"country\": \"US\",\r\n      \"platform\": \"Web\"\r\n    }\r\n  ],\r\n  \"channelData\": {\r\n    \"teamsChannelId\": \"19:844402107b5c46849314a32f59e2604a@thread.skype\",\r\n    \"teamsTeamId\": \"19:b71f18186b1b496f8a4e0157df1b0005@thread.skype\",\r\n    \"channel\": {\r\n      \"id\": \"19:844402107b5c46849314a32f59e2604a@thread.skype\"\r\n    },\r\n    \"team\": {\r\n      \"id\": \"19:b71f18186b1b496f8a4e0157df1b0005@thread.skype\"\r\n    },\r\n    \"tenant\": {\r\n      \"id\": \"5d471751-9675-428d-917b-70f44f9630b0\"\r\n    }\r\n  },\r\n  \"action\": null,\r\n  \"replyToId\": null,\r\n  \"value\": null,\r\n  \"name\": null,\r\n  \"relatesTo\": null,\r\n  \"code\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ndapthanks_slack_negativ_amount",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8839571a-beeb-4ce9-a16c-59090b9ca9b0",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Only integer numbers beetween 1 and 100 are allowed!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "X-Slack-Signature",
+						"value": "v0=d68d0e054e98fe8376bb4e8dc76ce2c3038b2ec7ff9bdde88c902ebdb8fad6c5"
+					},
+					{
+						"key": "X-Forwarded-For",
+						"value": "54.85.44.145"
+					},
+					{
+						"key": "X-Forwarded-Proto",
+						"value": "https"
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "82ec08ba-a119-4402-82b2-23ca0462dbda"
+					},
+					{
+						"key": "X-Forwarded-Port",
+						"value": "443"
+					},
+					{
+						"key": "Total-Route-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Moesif-Transaction-Id",
+						"value": "45516c51-c12f-4e23-84a1-f3bdae86410f"
+					},
+					{
+						"key": "Connect-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Request-Start",
+						"value": "1581635429314"
+					},
+					{
+						"key": "Via",
+						"value": "1.1 vegur"
+					},
+					{
+						"key": "X-Slack-Request-Timestamp",
+						"value": "1581635429"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "6mPhVZmqSZ57QFfMioqhl1Ra",
+							"type": "text"
+						},
+						{
+							"key": "team_id",
+							"value": "T70DXRVH6",
+							"type": "text"
+						},
+						{
+							"key": "team_domain",
+							"value": "nokia-devops-server",
+							"type": "text"
+						},
+						{
+							"key": "channel_id",
+							"value": "C70DXRYAU",
+							"type": "text"
+						},
+						{
+							"key": "channel_name",
+							"value": "general",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "UBVSG624A",
+							"type": "text"
+						},
+						{
+							"key": "user_name",
+							"value": "zsolt.rajko",
+							"type": "text"
+						},
+						{
+							"key": "command",
+							"value": "/thx",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "-30 @botond.deli for Your help to troubleshoot why SW onboarding fails in TMO-Lab",
+							"type": "text"
+						},
+						{
+							"key": "response_url",
+							"value": "https://hooks.slack.com/commands/T70DXRVH6/940374926499/OdM7XD4vod6iLLd4KwBm3wHA",
+							"type": "text"
+						},
+						{
+							"key": "trigger_id",
+							"value": "939054487106.238473879584.1a948556bbd40a1cfec482361ed4e43d",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ndapthanks_slack_too_big_amount",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8839571a-beeb-4ce9-a16c-59090b9ca9b0",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Only integer numbers beetween 1 and 100 are allowed!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "X-Slack-Signature",
+						"value": "v0=d68d0e054e98fe8376bb4e8dc76ce2c3038b2ec7ff9bdde88c902ebdb8fad6c5"
+					},
+					{
+						"key": "X-Forwarded-For",
+						"value": "54.85.44.145"
+					},
+					{
+						"key": "X-Forwarded-Proto",
+						"value": "https"
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "82ec08ba-a119-4402-82b2-23ca0462dbda"
+					},
+					{
+						"key": "X-Forwarded-Port",
+						"value": "443"
+					},
+					{
+						"key": "Total-Route-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Moesif-Transaction-Id",
+						"value": "45516c51-c12f-4e23-84a1-f3bdae86410f"
+					},
+					{
+						"key": "Connect-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Request-Start",
+						"value": "1581635429314"
+					},
+					{
+						"key": "Via",
+						"value": "1.1 vegur"
+					},
+					{
+						"key": "X-Slack-Request-Timestamp",
+						"value": "1581635429"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "6mPhVZmqSZ57QFfMioqhl1Ra",
+							"type": "text"
+						},
+						{
+							"key": "team_id",
+							"value": "T70DXRVH6",
+							"type": "text"
+						},
+						{
+							"key": "team_domain",
+							"value": "nokia-devops-server",
+							"type": "text"
+						},
+						{
+							"key": "channel_id",
+							"value": "C70DXRYAU",
+							"type": "text"
+						},
+						{
+							"key": "channel_name",
+							"value": "general",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "UBVSG624A",
+							"type": "text"
+						},
+						{
+							"key": "user_name",
+							"value": "zsolt.rajko",
+							"type": "text"
+						},
+						{
+							"key": "command",
+							"value": "/thx",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "120 @botond.deli for Your help to troubleshoot why SW onboarding fails in TMO-Lab",
+							"type": "text"
+						},
+						{
+							"key": "response_url",
+							"value": "https://hooks.slack.com/commands/T70DXRVH6/940374926499/OdM7XD4vod6iLLd4KwBm3wHA",
+							"type": "text"
+						},
+						{
+							"key": "trigger_id",
+							"value": "939054487106.238473879584.1a948556bbd40a1cfec482361ed4e43d",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ndapthanks_slack_not_integer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8839571a-beeb-4ce9-a16c-59090b9ca9b0",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"This is not an integer number!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "X-Slack-Signature",
+						"value": "v0=d68d0e054e98fe8376bb4e8dc76ce2c3038b2ec7ff9bdde88c902ebdb8fad6c5"
+					},
+					{
+						"key": "X-Forwarded-For",
+						"value": "54.85.44.145"
+					},
+					{
+						"key": "X-Forwarded-Proto",
+						"value": "https"
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "82ec08ba-a119-4402-82b2-23ca0462dbda"
+					},
+					{
+						"key": "X-Forwarded-Port",
+						"value": "443"
+					},
+					{
+						"key": "Total-Route-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Moesif-Transaction-Id",
+						"value": "45516c51-c12f-4e23-84a1-f3bdae86410f"
+					},
+					{
+						"key": "Connect-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Request-Start",
+						"value": "1581635429314"
+					},
+					{
+						"key": "Via",
+						"value": "1.1 vegur"
+					},
+					{
+						"key": "X-Slack-Request-Timestamp",
+						"value": "1581635429"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "6mPhVZmqSZ57QFfMioqhl1Ra",
+							"type": "text"
+						},
+						{
+							"key": "team_id",
+							"value": "T70DXRVH6",
+							"type": "text"
+						},
+						{
+							"key": "team_domain",
+							"value": "nokia-devops-server",
+							"type": "text"
+						},
+						{
+							"key": "channel_id",
+							"value": "C70DXRYAU",
+							"type": "text"
+						},
+						{
+							"key": "channel_name",
+							"value": "general",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "UBVSG624A",
+							"type": "text"
+						},
+						{
+							"key": "user_name",
+							"value": "zsolt.rajko",
+							"type": "text"
+						},
+						{
+							"key": "command",
+							"value": "/thx",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "a20# @botond.deli for Your help to troubleshoot why SW onboarding fails in TMO-Lab",
+							"type": "text"
+						},
+						{
+							"key": "response_url",
+							"value": "https://hooks.slack.com/commands/T70DXRVH6/940374926499/OdM7XD4vod6iLLd4KwBm3wHA",
+							"type": "text"
+						},
+						{
+							"key": "trigger_id",
+							"value": "939054487106.238473879584.1a948556bbd40a1cfec482361ed4e43d",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ndapthanks_slack_not_valid_mention",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8839571a-beeb-4ce9-a16c-59090b9ca9b0",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"This is not a valid '@mention' !\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "X-Slack-Signature",
+						"value": "v0=d68d0e054e98fe8376bb4e8dc76ce2c3038b2ec7ff9bdde88c902ebdb8fad6c5"
+					},
+					{
+						"key": "X-Forwarded-For",
+						"value": "54.85.44.145"
+					},
+					{
+						"key": "X-Forwarded-Proto",
+						"value": "https"
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "82ec08ba-a119-4402-82b2-23ca0462dbda"
+					},
+					{
+						"key": "X-Forwarded-Port",
+						"value": "443"
+					},
+					{
+						"key": "Total-Route-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Moesif-Transaction-Id",
+						"value": "45516c51-c12f-4e23-84a1-f3bdae86410f"
+					},
+					{
+						"key": "Connect-Time",
+						"value": "0"
+					},
+					{
+						"key": "X-Request-Start",
+						"value": "1581635429314"
+					},
+					{
+						"key": "Via",
+						"value": "1.1 vegur"
+					},
+					{
+						"key": "X-Slack-Request-Timestamp",
+						"value": "1581635429"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "6mPhVZmqSZ57QFfMioqhl1Ra",
+							"type": "text"
+						},
+						{
+							"key": "team_id",
+							"value": "T70DXRVH6",
+							"type": "text"
+						},
+						{
+							"key": "team_domain",
+							"value": "nokia-devops-server",
+							"type": "text"
+						},
+						{
+							"key": "channel_id",
+							"value": "C70DXRYAU",
+							"type": "text"
+						},
+						{
+							"key": "channel_name",
+							"value": "general",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "UBVSG624A",
+							"type": "text"
+						},
+						{
+							"key": "user_name",
+							"value": "zsolt.rajko",
+							"type": "text"
+						},
+						{
+							"key": "command",
+							"value": "/thx",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "20 botond.deli for Your help to troubleshoot why SW onboarding fails in TMO-Lab",
+							"type": "text"
+						},
+						{
+							"key": "response_url",
+							"value": "https://hooks.slack.com/commands/T70DXRVH6/940374926499/OdM7XD4vod6iLLd4KwBm3wHA",
+							"type": "text"
+						},
+						{
+							"key": "trigger_id",
+							"value": "939054487106.238473879584.1a948556bbd40a1cfec482361ed4e43d",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
