@@ -2,6 +2,7 @@
 import os
 import io
 import psycopg2
+import psycopg2.extras
 import logging
 import urllib.parse
 from flask import Flask, abort, request, jsonify, send_from_directory
@@ -79,6 +80,7 @@ def ndap_thanks():
         abort(400)
     else: #fetch the data from request
         response_text_to_client = None
+        number_of_mentions = 0
         thx_to_whom = []
         # Parse the parameters from the message what you need
         if client_type == "slack" :
@@ -95,6 +97,7 @@ def ndap_thanks():
                 if thx_amount > 0 and thx_amount <=100 :
                     if data[1][0] == '@' and len(data[1]) > 1 :
                         thx_to_whom.append(data[1][1:])
+                        number_of_mentions = 1
                         logging.info('Thx to Whom: %s',thx_to_whom[0])
                         thx_for_what = data[2]
                         logging.info('Thx for What: %s',thx_for_what)
@@ -122,7 +125,7 @@ def ndap_thanks():
             req_text = json_data['text']
             req_text = req_text.replace("<at>test_thx</at>&nbsp;","")
             logging.info('msteams req text: %s',req_text)
-            number_of_mentions = 0
+
             for json_entity in json_data['entities']:
                 if json_entity['type'] == "mention" :
                     req_whom.append(json_entity['text'])
@@ -183,11 +186,14 @@ def ndap_thanks():
                         a_sent_points = 0
                     logging.info('User sent points in actual month is : %s', str(a_sent_points))
 
-                    if (a_sent_points+thx_amount) <= 100 :
+                    if (a_sent_points+(thx_amount*number_of_mentions)) <= 100 :
                         # execute a statement
+                        records_to_insert = []
                         postgres_insert_query = """INSERT INTO thanks_data (c_who, c_amount, c_to_whom, c_for_what) VALUES (%s, %s, %s, %s) RETURNING id;"""
-                        record_to_insert = (thx_who,thx_amount, thx_to_whom[0],thx_for_what)
-                        cur.execute(postgres_insert_query, record_to_insert)
+                        for i in range(number_of_mentions):
+                            records_to_insert.append((thx_who,thx_amount, thx_to_whom[i],thx_for_what))
+                        logging.info('Records to Insert: %s',records_to_insert)
+                        psycopg2.extras.execute_batch(cur,postgres_insert_query, records_to_insert)
                         # display the PostgreSQL database SQL result
                         db_sql_result = cur.fetchone()[0]
                         logging.info('SQL Result: %s', str(db_sql_result))
@@ -199,7 +205,7 @@ def ndap_thanks():
                     else:
                         response_text_to_client = ":-1: In this month you have already spent *"+ str(a_sent_points) + "*/100, so you have not enough remaining points for this!"
                 except (Exception, psycopg2.DatabaseError) as error:
-                    response_text_to_client = 'Database Error :( warning to <@UCGPL6H0E>'
+                    response_text_to_client = 'Database Error :( Please send warning to Mike!'
                     logging.error('Database Error: %s', error)
                 finally:
                     if conn is not None:
