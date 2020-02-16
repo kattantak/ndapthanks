@@ -60,7 +60,7 @@ def is_ms_teams_request_valid (request):
         if request.headers.get('Host') == "ndapthanks.herokuapp.com" :
             security_token = b"0TUoDa/b9pWPDG0F3N/bGdX4OfVhwv3KcLzgWrsqi2g="   #thx webhook -- production  version
         else:
-            security_token = b"+EMX4C5xXrrTcv0r6GhuA3ufO1nMiQacUruezK/Kip0="   #test_thx webhook -- test version      
+            security_token = b"+EMX4C5xXrrTcv0r6GhuA3ufO1nMiQacUruezK/Kip0="   #test_thx webhook -- test version
         digest = hmac.new(base64.b64decode(security_token), msg=request_data, digestmod=hashlib.sha256).digest()
         signature = base64.b64encode(digest).decode()
         #verify that HMAC header == signature
@@ -127,6 +127,7 @@ def ndap_thanks():
             logging.info('Thx Who: %s',thx_who)
             req_text = json_data['text']
             req_text = req_text.replace("<at>test_thx</at>&nbsp;","")
+            req_text = req_text.replace("<at>thx</at>&nbsp;","")
             logging.info('msteams req text: %s',req_text)
 
             for json_entity in json_data['entities']:
@@ -166,7 +167,7 @@ def ndap_thanks():
         update_company = MoesifMiddleware(app, moesif_settings).update_company({'company_id': 'NDAP'})
 #####################################################################################################################
         if not input_data_error:
-            if thx_to_whom != thx_who :
+            if thx_to_whom[0] != thx_who :
                 conn = None
                 try:
                     #set windows env variable
@@ -215,7 +216,7 @@ def ndap_thanks():
                         conn.close()
                         logging.info('Database connection closed.')
             else: #if thx_to_whom != thx_who
-                response_text_to_client = thx_to_whom + " --> Not fair to send points to yourself!"
+                response_text_to_client = thx_to_whom[0] + " --> Not fair to send points to yourself!"
                 logging.error('Input Error: %s',response_text_to_client)
 
 #####################################################################################################################
