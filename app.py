@@ -126,6 +126,7 @@ def ndap_thanks():
             thx_who = json_data['from']['name']
             logging.info('Thx Who: %s',thx_who)
             req_text = json_data['text']
+            req_text = req_text.replace("<div itemprop=\"copy-paste-block\">","")
             req_text = req_text.replace("<at>test_thx</at>&nbsp;","")
             req_text = req_text.replace("<at>thx</at>&nbsp;","")
             logging.info('msteams req text: %s',req_text)
@@ -171,7 +172,7 @@ def ndap_thanks():
                 conn = None
                 try:
                     #set windows env variable
-                    #test database #set DATABASE_URL=postgres://gliowdvszelgsr:2f26126f6235b7c29b16cef82758b50cb4bf37009c466ba4c8d0c03d39d4c2cb@ec2-54-217-243-19.eu-west-1.compute.amazonaws.com:5432/da7fv56744pvck
+                    #test database: set DATABASE_URL=postgres://gliowdvszelgsr:2f26126f6235b7c29b16cef82758b50cb4bf37009c466ba4c8d0c03d39d4c2cb@ec2-54-217-243-19.eu-west-1.compute.amazonaws.com:5432/da7fv56744pvck
                     DATABASE_URL = os.environ['DATABASE_URL']
                     # connect to the PostgreSQL server
                     logging.info('Connecting to the PostgreSQL database...')
@@ -205,7 +206,7 @@ def ndap_thanks():
                         conn.commit()
                         # close the communication with the PostgreSQL
                         cur.close()
-                        response_text_to_client = ":+1: Thank you for your recognition! In this month you have spent *"+ str(a_sent_points+thx_amount) + "*/100 points"
+                        response_text_to_client = ":+1: Thank you for your recognition! In this month you have spent *"+ str(a_sent_points+thx_amount*number_of_mentions) + "*/100 points"
                     else:
                         response_text_to_client = ":-1: In this month you have already spent *"+ str(a_sent_points) + "*/100, so you have not enough remaining points for this!"
                 except (Exception, psycopg2.DatabaseError) as error:
